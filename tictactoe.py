@@ -178,66 +178,39 @@ def hasWon(board):
     #     return True
 
 def computerMove(board):
+    #possible ways for human player to win
+    winningPositions = [
+        (0, 1, 2),
+        (3, 4, 5),
+        (6, 7, 8),
+        (0, 3, 6),
+        (1, 4, 7),
+        (2, 5, 8),
+        (0, 4, 8),
+        (2, 4, 6),
+    ]
     openBox = []
-    #prevent win by cols
-    if board[0][2] and board[1][2] and board[2][2] == None:
-        board[2][2] = False
-    elif board[0][2] and board [2][2] and board[1][2] == None:
-        board[1][2] = False
-    elif board[1][2] and board [2][2] and board[0][2] == None:
-        board[0][2] = False
-    elif board[3][2] and board [4][2] and board[5][2] == None:
-        board[5][2] = False
-    elif board[3][2] and board [5][2] and board[4][2] == None:
-        board[4][2] = False
-    elif board[4][2] and board [5][2] and board[3][2] == None:
-        board[3][2] = False
-    elif board[6][2] and board [7][2] and board[8][2] == None:
-        board[8][2] = False
-    elif board[6][2] and board [8][2] and board[7][2] == None:
-        board[7][2] = False
-    elif board[7][2] and board [8][2] and board[6][2] == None:
-        board[6][2] = False
-    #prevent win by rows
-    elif board[0][2] and board[3][2] and board[6][2] == None:
-        board[6][2] = False
-    elif board[0][2] and board [6][2] and board[3][2] == None:
-        board[3][2] = False
-    elif board[3][2] and board [6][2] and board[0][2] == None:
-        board[0][2] = False
-    elif board[1][2] and board [4][2] and board[7][2] == None:
-        board[7][2] = False
-    elif board[1][2] and board [7][2] and board[4][2] == None:
-        board[4][2] = False
-    elif board[4][2] and board [7][2] and board[1][2] == None:
-        board[1][2] = False
-    elif board[2][2] and board [5][2] and board[8][2] == None:
-        board[8][2] = False
-    elif board[2][2] and board [8][2] and board[5][2] == None:
-        board[5][2] = False
-    elif board[5][2] and board [8][2] and board[2][2] == None:
-        board[2][2] = False
-    #prevent win by diagonal (top right to bot left)
-    elif board[0][2] and board [4][2] and board[8][2] == None:
-        board[8][2] = False
-    elif board[0][2] and board [8][2] and board[4][2] == None:
-        board[4][2] = False
-    elif board[4][2] and board [8][2] and board[0][2] == None:
-        board[0][2] = False
-    #prevent win by diagonal (bot left to top right)
-    elif board[2][2] and board [4][2] and board[6][2] == None:
-        board[6][2] = False 
-    elif board[2][2] and board [6][2] and board[4][2] == None:
-        board[4][2] = False 
-    elif board[4][2] and board [6][2] and board[2][2] == None:
-        board[2][2] = False
-    else:
-        for box in board:
-            if box[2] == None:
-                openBox.append((box[0],box[1]))
-        choice = random.sample(openBox, 1)[0]
-        choice = (choice[0]*3) + choice[1]
-        board[choice][2] = False
+
+    #computer checks if player is about to win
+    #if player is, then block winning play
+    for pos in winningPositions:
+        if board[pos[0]][2] and board[pos[1]][2] and board[pos[2]][2] == None:
+            board[pos[2]][2] = False
+            return board
+        elif board[pos[0]][2] and board[pos[2]][2] and board[pos[1]][2] == None:
+            board[pos[1]][2] = False
+            return board
+        elif board[pos[1]][2] and board[pos[2]][2] and board[pos[0]][2] == None:
+            board[pos[0]][2] = False
+            return board
+            
+    #otherwise play on random empty box
+    for box in board:
+        if box[2] == None:
+            openBox.append((box[0],box[1]))
+    choice = random.sample(openBox, 1)[0]
+    choice = (choice[0]*3) + choice[1]
+    board[choice][2] = False
     return board
 
 if __name__ == '__main__':
