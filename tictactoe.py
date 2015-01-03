@@ -74,17 +74,18 @@ def main():
             drawHighlightBox(boxx, boxy)
         if boxx != None and boxy != None and boxState == None and mouseClicked:
             markBox(mainBoard, boxx, boxy)
-            mainBoard = computerMove(mainBoard)
             if hasWon(mainBoard):
                 #gameWonAnimation(mainBoard)
                 #pygame.time.wait(2000)
 
                 #mainBoard = newBoard()
 
-                #drawBoard(mainBoard)
-                #pygame.display.update()
-                #pygame.time.wait(1000)
+                drawBoard(mainBoard)
+                pygame.display.update()
                 print "Congratulations"
+                pygame.time.wait(2000)
+            else:
+                mainBoard = computerMove(mainBoard)
 
         pygame.display.update()
         clock.tick(FPS)
@@ -144,83 +145,98 @@ def markBox(board, boxx, boxy):
     board[pos][2] = True
 
 def hasWon(board):
-    if board[0][2] and board[1][2] and board[2][2]:
-        return True
-    elif board[3][2] and board[4][2] and board[5][2]:
-        return True
-    elif board[6][2] and board[7][2] and board[8][2]:
-        return True
-    elif board[0][2] and board[3][2] and board[6][2]:
-        return True
-    elif board[1][2] and board[4][2] and board[7][2]:
-        return True
-    elif board[2][2] and board[5][2] and board[8][2]:
-        return True
-    elif board[0][2] and board[4][2] and board[8][2]:
-        return True
-    elif board[2][2] and board[4][2] and board[6][2]:
-        return True
+    winningPositions = [
+        (0, 1, 2),
+        (3, 4, 5),
+        (6, 7, 8),
+        (0, 3, 6),
+        (1, 4, 7),
+        (2, 5, 8),
+        (0, 4, 8),
+        (2, 4, 6),
+    ]
+
+    for winningPosition in winningPositions:
+        # check if the board[x][2], board[y][2] and board[z][2]. If there are all True then return true
+        if all([board[position][2] for position in winningPosition]):
+            return True
+    # if board[0][2] and board[1][2] and board[2][2]:
+    #     return True
+    # elif board[3][2] and board[4][2] and board[5][2]:
+    #     return True
+    # elif board[6][2] and board[7][2] and board[8][2]:
+    #     return True
+    # elif board[0][2] and board[3][2] and board[6][2]:
+    #     return True
+    # elif board[1][2] and board[4][2] and board[7][2]:
+    #     return True
+    # elif board[2][2] and board[5][2] and board[8][2]:
+    #     return True
+    # elif board[0][2] and board[4][2] and board[8][2]:
+    #     return True
+    # elif board[2][2] and board[4][2] and board[6][2]:
+    #     return True
 
 def computerMove(board):
     openBox = []
     #prevent win by cols
-    if board[0][2] and board[1][2] and not board[2][2]:
+    if board[0][2] and board[1][2] and board[2][2] == None:
         board[2][2] = False
-    elif board[0][2] and board [2][2] and not board[1][2]:
+    elif board[0][2] and board [2][2] and board[1][2] == None:
         board[1][2] = False
-    elif board[1][2] and board [2][2] and not board[0][2]:
+    elif board[1][2] and board [2][2] and board[0][2] == None:
         board[0][2] = False
-    elif board[3][2] and board [4][2] and not board[5][2]:
+    elif board[3][2] and board [4][2] and board[5][2] == None:
         board[5][2] = False
-    elif board[3][2] and board [5][2] and not board[4][2]:
+    elif board[3][2] and board [5][2] and board[4][2] == None:
         board[4][2] = False
-    elif board[4][2] and board [5][2] and not board[3][2]:
+    elif board[4][2] and board [5][2] and board[3][2] == None:
         board[3][2] = False
-    elif board[6][2] and board [7][2] and not board[8][2]:
+    elif board[6][2] and board [7][2] and board[8][2] == None:
         board[8][2] = False
-    elif board[6][2] and board [8][2] and not board[7][2]:
+    elif board[6][2] and board [8][2] and board[7][2] == None:
         board[7][2] = False
-    elif board[7][2] and board [8][2] and not board[6][2]:
+    elif board[7][2] and board [8][2] and board[6][2] == None:
         board[6][2] = False
     #prevent win by rows
-    elif board[0][2] and board[3][2] and not board[6][2]:
+    elif board[0][2] and board[3][2] and board[6][2] == None:
         board[6][2] = False
-    elif board[0][2] and board [6][2] and not board[3][2]:
+    elif board[0][2] and board [6][2] and board[3][2] == None:
         board[3][2] = False
-    elif board[3][2] and board [6][2] and not board[0][2]:
+    elif board[3][2] and board [6][2] and board[0][2] == None:
         board[0][2] = False
-    elif board[1][2] and board [4][2] and not board[7][2]:
+    elif board[1][2] and board [4][2] and board[7][2] == None:
         board[7][2] = False
-    elif board[1][2] and board [7][2] and not board[4][2]:
+    elif board[1][2] and board [7][2] and board[4][2] == None:
         board[4][2] = False
-    elif board[4][2] and board [7][2] and not board[1][2]:
+    elif board[4][2] and board [7][2] and board[1][2] == None:
         board[1][2] = False
-    elif board[2][2] and board [5][2] and not board[8][2]:
+    elif board[2][2] and board [5][2] and board[8][2] == None:
         board[8][2] = False
-    elif board[2][2] and board [8][2] and not board[5][2]:
+    elif board[2][2] and board [8][2] and board[5][2] == None:
         board[5][2] = False
-    elif board[5][2] and board [8][2] and not board[2][2]:
+    elif board[5][2] and board [8][2] and board[2][2] == None:
         board[2][2] = False
     #prevent win by diagonal (top right to bot left)
-    elif board[0][2] and board [4][2] and not board[8][2]:
+    elif board[0][2] and board [4][2] and board[8][2] == None:
         board[8][2] = False
-    elif board[0][2] and board [8][2] and not board[4][2]:
+    elif board[0][2] and board [8][2] and board[4][2] == None:
         board[4][2] = False
-    elif board[4][2] and board [8][2] and not board[0][2]:
+    elif board[4][2] and board [8][2] and board[0][2] == None:
         board[0][2] = False
     #prevent win by diagonal (bot left to top right)
-    elif board[2][2] and board [4][2] and not board[6][2]:
+    elif board[2][2] and board [4][2] and board[6][2] == None:
         board[6][2] = False 
-    elif board[2][2] and board [6][2] and not board[4][2]:
+    elif board[2][2] and board [6][2] and board[4][2] == None:
         board[4][2] = False 
-    elif board[4][2] and board [6][2] and not board[2][2]:
+    elif board[4][2] and board [6][2] and board[2][2] == None:
         board[2][2] = False
     else:
         for box in board:
             if box[2] == None:
                 openBox.append((box[0],box[1]))
-        choice = random.sample(openBox, 1)
-        choice = (choice[0][0]*3) + choice[0][1]
+        choice = random.sample(openBox, 1)[0]
+        choice = (choice[0]*3) + choice[1]
         board[choice][2] = False
     return board
 
