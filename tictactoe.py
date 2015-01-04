@@ -80,10 +80,10 @@ def main():
 
                 #mainBoard = newBoard()
 
-                drawBoard(mainBoard)
+                #drawBoard(mainBoard)
                 pygame.display.update()
                 print "Congratulations"
-                pygame.time.wait(2000)
+                #pygame.time.wait(2000)
             else:
                 mainBoard = computerMove(mainBoard)
 
@@ -160,22 +160,6 @@ def hasWon(board):
         # check if the board[x][2], board[y][2] and board[z][2]. If there are all True then return true
         if all([board[position][2] for position in winningPosition]):
             return True
-    # if board[0][2] and board[1][2] and board[2][2]:
-    #     return True
-    # elif board[3][2] and board[4][2] and board[5][2]:
-    #     return True
-    # elif board[6][2] and board[7][2] and board[8][2]:
-    #     return True
-    # elif board[0][2] and board[3][2] and board[6][2]:
-    #     return True
-    # elif board[1][2] and board[4][2] and board[7][2]:
-    #     return True
-    # elif board[2][2] and board[5][2] and board[8][2]:
-    #     return True
-    # elif board[0][2] and board[4][2] and board[8][2]:
-    #     return True
-    # elif board[2][2] and board[4][2] and board[6][2]:
-    #     return True
 
 def computerMove(board):
     #possible ways for human player to win
@@ -203,11 +187,13 @@ def computerMove(board):
         elif board[pos[1]][2] and board[pos[2]][2] and board[pos[0]][2] == None:
             board[pos[0]][2] = False
             return board
-            
+
     #otherwise play on random empty box
     for box in board:
         if box[2] == None:
             openBox.append((box[0],box[1]))
+    if len(openBox) == 0:
+        return board
     choice = random.sample(openBox, 1)[0]
     choice = (choice[0]*3) + choice[1]
     board[choice][2] = False
